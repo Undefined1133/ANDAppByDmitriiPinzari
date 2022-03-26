@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "607329785473",
+    "project_id": "andappbydmitriipinzari",
+    "storage_bucket": "andappbydmitriipinzari.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:607329785473:android:951fc4999cb3cf6d6edf80",
+        "android_client_info": {
+          "package_name": "com.example.andappbydmitriipinzari"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "607329785473-gndjkp4pmvk6mt4bijiqk75hk2etcfm1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpbW3OVonRP-_wWUql9S2q9x9VRE50Fgg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "607329785473-gndjkp4pmvk6mt4bijiqk75hk2etcfm1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
