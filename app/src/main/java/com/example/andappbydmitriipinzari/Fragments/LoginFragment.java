@@ -28,13 +28,16 @@ public class LoginFragment extends Fragment {
         TextView banner = view.findViewById(R.id.myApp);
         TextView registerRedirect = view.findViewById(R.id.registerButton);
 
-        registerRedirect.setOnClickListener(view1 -> {
-            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.container,new RegisterFragment()).commit();
-        });
-
-        TextView forgotPassword = view.findViewById(R.id.forgotPassword);
-
+//        registerRedirect.setOnClickListener(view1 -> {
+//            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+//            transaction.replace(R.id.container,new RegisterFragment()).commit();
+//        });
+//
+//        TextView forgotPassword = view.findViewById(R.id.forgotPassword);
+//forgotPassword.setOnClickListener(view1 -> {
+//    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+//    transaction.replace(R.id.container,new AnimeSearchFragment()).commit();
+//});
 
         return view;
     }

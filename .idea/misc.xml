@@ -4,8 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Asus-PC/AndroidStudioProjects/ANDAppByDmitriiPinzari/app/src/main/res/layout/activity_main.xml" value="0.24010416666666667" />
+        <entry key="..\:/Users/Asus-PC/AndroidStudioProjects/ANDAppByDmitriiPinzari/app/src/main/res/layout/anime_item.xml" value="0.25025641025641027" />
         <entry key="..\:/Users/Asus-PC/AndroidStudioProjects/ANDAppByDmitriiPinzari/app/src/main/res/layout/login_layout.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Asus-PC/AndroidStudioProjects/ANDAppByDmitriiPinzari/app/src/main/res/layout/register_layout.xml" value="0.176" />
+        <entry key="..\:/Users/Asus-PC/AndroidStudioProjects/ANDAppByDmitriiPinzari/app/src/main/res/layout/search_anime_layout.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>
