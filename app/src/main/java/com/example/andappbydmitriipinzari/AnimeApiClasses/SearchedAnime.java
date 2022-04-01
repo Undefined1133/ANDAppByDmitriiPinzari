@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import javax.xml.transform.Result;
 
 public class SearchedAnime {
 
@@ -16,6 +15,10 @@ public class SearchedAnime {
     boolean requestCached;
     @SerializedName("request_hash")
     String requestHash;
-    @SerializedName("results")
-    List<Result> results;
+    @SerializedName("data")
+    List<TopAnimeResult> data;
+
+    public List<TopAnimeResult> getData() {
+        return data;
+    }
 }

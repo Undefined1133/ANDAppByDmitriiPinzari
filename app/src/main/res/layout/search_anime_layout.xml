@@ -22,7 +22,7 @@
             android:id="@+id/searchInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="eg.Naruto">
+            android:hint="Anime name">
         </com.google.android.material.textfield.TextInputEditText>
 
     </com.google.android.material.textfield.TextInputLayout>
