@@ -26,6 +26,7 @@ public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.ViewHolder> 
     private List<SearchedAnime> searchedAnimes;
 
     public AnimeAdapter(List<TopAnimeResult> animes) {
+
         this.topAnimes = animes;
     }
 
@@ -62,11 +63,11 @@ public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.ViewHolder> 
             NavController navController = Navigation.findNavController(holder.itemView);
 
             Bundle bundle = new Bundle();
-Gson gson = new Gson();
-String animeJson = gson.toJson(anime);
+            Gson gson = new Gson();
+            String animeJson = gson.toJson(anime);
 
             bundle.putString("animeClicked", animeJson);
-            navController.navigate(R.id.detailsFragment,bundle);
+            navController.navigate(R.id.detailsFragment, bundle);
         });
 
     }

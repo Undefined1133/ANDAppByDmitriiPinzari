@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.andappbydmitriipinzari.AnimeApiClasses.TopAnimeResult;
 import com.example.andappbydmitriipinzari.R;
 import com.example.andappbydmitriipinzari.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,6 +24,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
+
+import java.util.List;
 import java.util.Locale;
 
 public class RegisterFragment extends Fragment {
@@ -87,8 +90,15 @@ public class RegisterFragment extends Fragment {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
 
+// WHEN CLICKING AN ANIME FAVORITE BUTTON, CREATE HASHMAP AS SHOWN BELOW
+
+//                            Map<String, Object> userUpdates = new HashMap<>();
+//                            userUpdates.put("alanisawesome/nickname", "Alan The Machine");
+//                            userUpdates.put("gracehop/nickname", "Amazing Grace");
+//                            usersRef.updateChildrenAsync(userUpdates);
+
                             User user = new User(fullNameText, passwordText, emailText,
-                                    usernameText);
+                                    usernameText,"",null);
 
                             FirebaseDatabase.getInstance("https://andappbydmitriipinzari-default-rtdb.europe-west1.firebasedatabase.app/").getReference("User")
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())

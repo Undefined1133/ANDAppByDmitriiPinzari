@@ -6,8 +6,6 @@ import com.google.gson.annotations.SerializedName;
 public class TopAnimeResult {
     @SerializedName("airing")
     Boolean airing;
-    @SerializedName("end_date")
-    String endDate;
     @SerializedName("episodes")
     int episodes;
     @SerializedName("images")
@@ -20,8 +18,8 @@ public class TopAnimeResult {
     String rated;
     @SerializedName("score")
     Double score;
-    @SerializedName("start_date")
-    String startDate;
+    @SerializedName("aired")
+    Aired aired;
     @SerializedName("synopsis")
     String synopsis;
     @SerializedName("title")
