@@ -51,8 +51,17 @@ public class AnimeDetailsFragment extends Fragment {
         View view = inflater.inflate(R.layout.anime_details_layout, container, false);
         Bundle bundle = this.getArguments();
         String animeJson = bundle.getString("animeClicked");
+        String usersUid = "";
         Gson gson = new Gson();
-        SharedPreferences preferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+
+        auth = FirebaseAuth.getInstance();
+
+        if (auth.getCurrentUser() != null) {
+            FirebaseUser firebaseUserCheckIfLogged = auth.getCurrentUser();
+             usersUid = firebaseUserCheckIfLogged.getUid();
+        }
+
+        SharedPreferences preferences = getActivity().getSharedPreferences(usersUid, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         animeResult = gson.fromJson(bundle.getString("animeClicked"), TopAnimeResult.class);
 
@@ -120,7 +129,11 @@ public class AnimeDetailsFragment extends Fragment {
                             String key = watchedAnimeSnapshot.getKey();
                             String value = watchedAnimeSnapshot.getValue().toString();
                             Log.e("Key is: " ,key);
+
+                            if(value.equals(Integer.toString(animeResult.malId))){
                             userReference1.child(key).removeValue();
+                            Log.e("Removed ", "Is it tho?");
+                            }
 
                         }
                     }
