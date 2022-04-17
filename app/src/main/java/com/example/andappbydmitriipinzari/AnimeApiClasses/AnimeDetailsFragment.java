@@ -103,6 +103,7 @@ public class AnimeDetailsFragment extends Fragment {
                 Log.v("boolean check: ", String.valueOf(check));
 
                 if (auth.getCurrentUser() != null) {
+
                     FirebaseUser firebaseUser = auth.getCurrentUser();
                     userReference = firebaseDatabase.getReference("User").child(firebaseUser.getUid()).child("watchedAnime");
                     DatabaseReference newChildReference = userReference.push();
@@ -119,30 +120,32 @@ public class AnimeDetailsFragment extends Fragment {
                 DatabaseReference userReference1;
                 FirebaseUser firebaseUser = auth.getCurrentUser();
 
-                userReference1 = firebaseDatabase.getReference("User").child(firebaseUser.getUid()).child("watchedAnime");
+                if(firebaseUser!=null) {
+                    userReference1 = firebaseDatabase.getReference("User").child(firebaseUser.getUid()).child("watchedAnime");
 
-                userReference1.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot watchedAnimeSnapshot: snapshot.getChildren()) {
+                    userReference1.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot watchedAnimeSnapshot : snapshot.getChildren()) {
 
-                            String key = watchedAnimeSnapshot.getKey();
-                            String value = watchedAnimeSnapshot.getValue().toString();
-                            Log.e("Key is: " ,key);
+                                String key = watchedAnimeSnapshot.getKey();
+                                String value = watchedAnimeSnapshot.getValue().toString();
+                                Log.e("Key is: ", key);
 
-                            if(value.equals(Integer.toString(animeResult.malId))){
-                            userReference1.child(key).removeValue();
-                            Log.e("Removed ", "Is it tho?");
+                                if (value.equals(Integer.toString(animeResult.malId))) {
+                                    userReference1.child(key).removeValue();
+                                    Log.e("Removed ", "Is it tho?");
+                                }
+
                             }
-
                         }
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Log.v("onCancelled","idk something is wrong");
-                    }
-                });
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Log.v("onCancelled", "idk something is wrong");
+                        }
+                    });
+                }
             }
         });
 
