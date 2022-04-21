@@ -73,11 +73,12 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.profile_layout, container, false);
+
         Retrofit.Builder builder = new Retrofit.Builder().baseUrl("https://api.jikan.moe/v4/")
                 .addConverterFactory(GsonConverterFactory.create());
 
         Retrofit retrofit = builder.build();
-
+        AnimeAdapter animeAdapter = new AnimeAdapter(listOfResultsOfSearchedAnimes);
         AnimeClient client = retrofit.create(AnimeClient.class);
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference();
@@ -148,15 +149,16 @@ public class ProfileFragment extends Fragment {
                                             SearchedAnimeById searchedAnime = response.body();
 
 
-                                            recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+                                            recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
                                             recyclerView.hasFixedSize();
 
-                                            listOfSearchedAnimes.add(searchedAnime);
-                                            for (int j = 0; j < listOfSearchedAnimes.size(); j++) {
-                                                listOfResultsOfSearchedAnimes.add(listOfSearchedAnimes.get(j).getTop());
-                                            }
 
+                                            listOfResultsOfSearchedAnimes.add(searchedAnime.getTop());
+
+                                        }else if(response.code() == 429){
+                                            Toast.makeText(getActivity(), "Too many requests", Toast.LENGTH_SHORT).show();
                                         }
+
                                     }
                                     @Override
                                     public void onFailure(Call call, Throwable t) {
@@ -164,8 +166,10 @@ public class ProfileFragment extends Fragment {
                                     }
                                 });
                             }
-                            AnimeAdapter animeAdapter = new AnimeAdapter(listOfResultsOfSearchedAnimes);
+
+                            animeAdapter.setDataSet(listOfResultsOfSearchedAnimes);
                             recyclerView.setAdapter(animeAdapter);
+
                         }
 
                         @Override
@@ -175,7 +179,7 @@ public class ProfileFragment extends Fragment {
                     });
 
 //                lastname.setText(firstnameLastname[1]);
-                    Toast.makeText(getContext(), username.getText().toString(), Toast.LENGTH_SHORT).show();
+
                 }
 
                 @Override
@@ -194,7 +198,7 @@ public class ProfileFragment extends Fragment {
                                 profilePicture.setImageURI(imageUri);
                                 uploadPicture();
                             } else {
-                                // ToDo : Do your stuff...
+                                Toast.makeText(getActivity(), "Image not uploaded", Toast.LENGTH_SHORT).show();
                             }
 
                         }

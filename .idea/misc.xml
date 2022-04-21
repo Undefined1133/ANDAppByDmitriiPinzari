@@ -3,15 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Asus-PC/AndroidStudioProjects/ANDAppByDmitriiPinzari/app/src/main/res/drawable/home_icon.xml" value="0.133" />
+        <entry key="..\:/Users/Asus-PC/AndroidStudioProjects/ANDAppByDmitriiPinzari/app/src/main/res/drawable/ic_wave.xml" value="0.133" />
+        <entry key="..\:/Users/Asus-PC/AndroidStudioProjects/ANDAppByDmitriiPinzari/app/src/main/res/drawable/ic_wave__2.xml" value="0.133" />
+        <entry key="..\:/Users/Asus-PC/AndroidStudioProjects/ANDAppByDmitriiPinzari/app/src/main/res/drawable/notification_icon.xml" value="0.133" />
         <entry key="..\:/Users/Asus-PC/AndroidStudioProjects/ANDAppByDmitriiPinzari/app/src/main/res/layout/activity_main.xml" value="0.24010416666666667" />
         <entry key="..\:/Users/Asus-PC/AndroidStudioProjects/ANDAppByDmitriiPinzari/app/src/main/res/layout/anime_details_layout.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Asus-PC/AndroidStudioProjects/ANDAppByDmitriiPinzari/app/src/main/res/layout/anime_item.xml" value="0.25025641025641027" />
         <entry key="..\:/Users/Asus-PC/AndroidStudioProjects/ANDAppByDmitriiPinzari/app/src/main/res/layout/login_activty_layout.xml" value="0.2462962962962963" />
         <entry key="..\:/Users/Asus-PC/AndroidStudioProjects/ANDAppByDmitriiPinzari/app/src/main/res/layout/login_layout.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Asus-PC/AndroidStudioProjects/ANDAppByDmitriiPinzari/app/src/main/res/layout/nav_header.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/Asus-PC/AndroidStudioProjects/ANDAppByDmitriiPinzari/app/src/main/res/layout/profile_layout.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Asus-PC/AndroidStudioProjects/ANDAppByDmitriiPinzari/app/src/main/res/layout/profile_layout.xml" value="0.264" />
         <entry key="..\:/Users/Asus-PC/AndroidStudioProjects/ANDAppByDmitriiPinzari/app/src/main/res/layout/register_layout.xml" value="0.176" />
         <entry key="..\:/Users/Asus-PC/AndroidStudioProjects/ANDAppByDmitriiPinzari/app/src/main/res/layout/search_anime_layout.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Asus-PC/AndroidStudioProjects/ANDAppByDmitriiPinzari/app/src/main/res/menu/bottom_nav_menu.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Asus-PC/AndroidStudioProjects/ANDAppByDmitriiPinzari/app/src/main/res/menu/nav_drawer_menu.xml" value="0.176" />
       </map>
     </option>

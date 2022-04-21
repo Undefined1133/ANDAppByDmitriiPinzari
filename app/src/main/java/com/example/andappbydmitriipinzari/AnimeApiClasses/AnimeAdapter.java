@@ -72,6 +72,11 @@ public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.ViewHolder> 
 
     }
 
+    public void setDataSet(List<TopAnimeResult> animeResults){
+        topAnimes.clear();
+        topAnimes.addAll(animeResults);
+        notifyDataSetChanged();
+    }
     @Override
     public int getItemCount() {
         return topAnimes.size();
