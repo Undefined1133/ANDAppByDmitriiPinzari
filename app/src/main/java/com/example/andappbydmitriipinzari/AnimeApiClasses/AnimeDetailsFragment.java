@@ -6,6 +6,7 @@ import android.media.Rating;
 import android.net.Uri;
 import android.nfc.Tag;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,7 +59,7 @@ public class AnimeDetailsFragment extends Fragment {
 
         if (auth.getCurrentUser() != null) {
             FirebaseUser firebaseUserCheckIfLogged = auth.getCurrentUser();
-             usersUid = firebaseUserCheckIfLogged.getUid();
+            usersUid = firebaseUserCheckIfLogged.getUid();
         }
 
         SharedPreferences preferences = getActivity().getSharedPreferences(usersUid, Context.MODE_PRIVATE);
@@ -94,6 +95,7 @@ public class AnimeDetailsFragment extends Fragment {
 
             if (isChecked) {
                 DatabaseReference userReference;
+                DatabaseReference favouriteAnimeReference;
                 auth = FirebaseAuth.getInstance();
 
 
@@ -106,9 +108,18 @@ public class AnimeDetailsFragment extends Fragment {
 
                     FirebaseUser firebaseUser = auth.getCurrentUser();
                     userReference = firebaseDatabase.getReference("User").child(firebaseUser.getUid()).child("watchedAnime");
-                    DatabaseReference newChildReference = userReference.push();
-                    String key = newChildReference.getKey();
+                    favouriteAnimeReference = firebaseDatabase.getReference("FavouriteAnime").child(firebaseUser.getUid());
+
+                    DatabaseReference newChildReferenceFavouriteAnime = favouriteAnimeReference.push();
+                    String keyAnime = newChildReferenceFavouriteAnime.getKey();
+
+
+                    favouriteAnimeReference.child(keyAnime).setValue(animeResult);
+
+                    DatabaseReference newChildReferenceUser = userReference.push();
+                    String key = newChildReferenceUser.getKey();
                     userReference.child(key).setValue(Integer.toString(animeResult.malId));
+
 
                 }
 
@@ -118,9 +129,12 @@ public class AnimeDetailsFragment extends Fragment {
                 editor.remove(Integer.toString(animeResult.malId)).apply();
                 auth = FirebaseAuth.getInstance();
                 DatabaseReference userReference1;
-                FirebaseUser firebaseUser = auth.getCurrentUser();
+                DatabaseReference favouriteAnimeReference;
 
-                if(firebaseUser!=null) {
+
+                FirebaseUser firebaseUser = auth.getCurrentUser();
+                favouriteAnimeReference = firebaseDatabase.getReference("FavouriteAnime").child(firebaseUser.getUid());
+                if (firebaseUser != null) {
                     userReference1 = firebaseDatabase.getReference("User").child(firebaseUser.getUid()).child("watchedAnime");
 
                     userReference1.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -143,6 +157,29 @@ public class AnimeDetailsFragment extends Fragment {
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
                             Log.v("onCancelled", "idk something is wrong");
+                        }
+                    });
+                    favouriteAnimeReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot favouriteAnimeSnapshot : snapshot.getChildren()) {
+
+                                String key = favouriteAnimeSnapshot.getKey();
+                                TopAnimeResult value = favouriteAnimeSnapshot.getValue(TopAnimeResult.class);
+                                Log.e("Key is: ", key);
+
+
+                                if (Integer.toString(value.malId).equals(Integer.toString(animeResult.malId))) {
+                                    favouriteAnimeReference.child(key).removeValue();
+                                    Log.e("Removed ", "Is it tho?");
+                                }
+
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
                         }
                     });
                 }

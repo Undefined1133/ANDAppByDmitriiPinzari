@@ -5,20 +5,24 @@ public class Aired {
 
     Prop prop;
 
-    public class Prop {
-        From from;
-        To to;
+    public Aired(){
 
-        public class From {
-            String day;
-            String month;
-            String year;
-        }
-
-        public class To {
-            String day;
-            String month;
-            String year;
-        }
     }
-}
+
+    public Prop getProp() {
+        return prop;
+    }
+
+    public void setProp(Prop prop) {
+        this.prop = prop;
+    }
+
+
+
+
+
+
+    }
+
+
+
