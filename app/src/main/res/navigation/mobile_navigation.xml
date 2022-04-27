@@ -31,4 +31,9 @@
     android:name="com.example.andappbydmitriipinzari.AnimeApiClasses.AnimeDetailsFragment"
     android:label="anime_details_layout"
     />
+    <fragment
+        android:id="@+id/groupChatFragment"
+        android:name="com.example.andappbydmitriipinzari.Fragments.GroupChatFragment"
+        android:label="group_chat_layout"
+        />
 </navigation>

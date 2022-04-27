@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
             if (item.getItemId() == R.id.my_profile) {
                 navController.navigate(R.id.profileFragment);
             } else if (item.getItemId() == R.id.settings) {
+                navController.navigate(R.id.groupChatFragment);
                 Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
             } else if (item.getItemId() == R.id.friends) {
                 Toast.makeText(this, "Friends", Toast.LENGTH_SHORT).show();

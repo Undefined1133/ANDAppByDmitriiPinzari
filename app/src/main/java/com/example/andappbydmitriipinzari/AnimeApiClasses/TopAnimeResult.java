@@ -28,7 +28,7 @@ public class TopAnimeResult {
     public  String type;
     @SerializedName("url")
     public  String url;
- public String userUID;
+
 
     public TopAnimeResult(){
 
@@ -130,11 +130,5 @@ public class TopAnimeResult {
         this.url = url;
     }
 
-    public String getUserUID() {
-        return userUID;
-    }
 
-    public void setUserUID(String userUID) {
-        this.userUID = userUID;
-    }
 }

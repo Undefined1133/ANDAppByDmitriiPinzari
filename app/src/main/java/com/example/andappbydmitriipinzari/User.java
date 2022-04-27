@@ -1,25 +1,22 @@
 package com.example.andappbydmitriipinzari;
 
-import com.example.andappbydmitriipinzari.AnimeApiClasses.TopAnime;
-import com.example.andappbydmitriipinzari.AnimeApiClasses.TopAnimeResult;
-
 import java.util.List;
 
 public class User {
-    public String fullName,password,email,username,profilePictureUrl;
+    public String fullName, password, email, username, profilePictureUrl;
 
-    public List<TopAnime> favouriteAnimeList;
+    public List<String> watchedAnime;
 
-    public User(){
+    public User() {
 
     }
 
-    public User(String fullName, String password, String email, String username, String profilePictureUrl, List<TopAnime> favouriteAnimeList) {
+    public User(String fullName, String password, String email, String username, String profilePictureUrl, List<String> favouriteAnimeList) {
         this.fullName = fullName;
         this.password = password;
         this.email = email;
         this.username = username;
-        this.favouriteAnimeList = favouriteAnimeList;
+        this.watchedAnime = favouriteAnimeList;
         this.profilePictureUrl = profilePictureUrl;
     }
 
@@ -63,11 +60,11 @@ public class User {
         this.profilePictureUrl = profilePictureUrl;
     }
 
-    public List<TopAnime> getFavouriteAnimeList() {
-        return favouriteAnimeList;
+    public List<String> getWatchedAnime() {
+        return watchedAnime;
     }
 
-    public void setFavouriteAnimeList(List<TopAnime> favouriteAnimeList) {
-        this.favouriteAnimeList = favouriteAnimeList;
+    public void setWatchedAnime(List<String> watchedAnime) {
+        this.watchedAnime = watchedAnime;
     }
 }

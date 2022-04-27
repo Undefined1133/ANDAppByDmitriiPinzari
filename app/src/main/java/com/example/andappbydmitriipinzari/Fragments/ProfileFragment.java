@@ -65,6 +65,7 @@ public class ProfileFragment extends Fragment {
     ArrayList<String> animeIdList = new ArrayList<>();
     List<SearchedAnimeById> listOfSearchedAnimes = new ArrayList<SearchedAnimeById>();
     List<TopAnimeResult> listOfResultsOfSearchedAnimes = new ArrayList<TopAnimeResult>();
+    List<TopAnimeResult> listOfResultsOfSearchedAnimesForAdapterSet = new ArrayList<TopAnimeResult>();
     private static final String USERS = "User";
     private final long ONE_MEGABYTE = 1024 * 1024;
     private List<SearchedAnime> searchedAnimeList;
@@ -95,12 +96,9 @@ public class ProfileFragment extends Fragment {
         if (auth.getCurrentUser() != null) {
             FirebaseUser firebaseUser = auth.getCurrentUser();
 
-//ADD VALUE EVENT LISTENER NOT TRIGGERING
-
-//ADD VALUE EVENT LISTENER NOT TRIGGERING
-
-//ADD VALUE EVENT LISTENER NOT TRIGGERING
             userReference = firebaseDatabase.getReference("User").child(firebaseUser.getUid());
+
+
         }
         if (userReference != null) {
             userReference.addValueEventListener(new ValueEventListener() {
@@ -123,62 +121,36 @@ public class ProfileFragment extends Fragment {
                             Log.e("Getting Bytes", "Something went wrong");
                         }
                     });
-
+                    FirebaseUser firebaseUser = auth.getCurrentUser();
                     username.setText(snapshot.child("username").getValue().toString());
                     email.setText(snapshot.child("email").getValue().toString());
                     fullName.setText(snapshot.child("fullName").getValue().toString());
+                    DatabaseReference favouriteAnimeReference;
 
-                    DatabaseReference userReferenceForAnimeById = userReference.child("watchedAnime");
-                    userReferenceForAnimeById.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                    favouriteAnimeReference = firebaseDatabase.getReference("FavouriteAnime").child(firebaseUser.getUid());
+
+                    favouriteAnimeReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                                 String key = postSnapshot.getKey();
-                                String value = postSnapshot.getValue().toString();
-                                    animeIdList.add(value);
+                                TopAnimeResult value = postSnapshot.getValue(TopAnimeResult.class);
 
+                                listOfResultsOfSearchedAnimesForAdapterSet.add(value);
                                 Log.e("Key is: ", key);
                             }
-                            for (int i = 0; i < animeIdList.size(); i++) {
-                                String  id = animeIdList.get(i);
-                                Call callSearchedAnimeById = client.getAnimeById(id);
-                                callSearchedAnimeById.enqueue(new Callback<SearchedAnimeById>() {
-                                    @Override
-                                    public void onResponse(Call<SearchedAnimeById> call, Response<SearchedAnimeById> response) {
-                                        if (response.body() != null) {
-                                            SearchedAnimeById searchedAnime = response.body();
-
-
-                                            recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-                                            recyclerView.hasFixedSize();
-
-
-                                            listOfResultsOfSearchedAnimes.add(searchedAnime.getTop());
-
-                                        }else if(response.code() == 429){
-                                            Toast.makeText(getActivity(), "Too many requests", Toast.LENGTH_SHORT).show();
-                                        }
-
-                                    }
-                                    @Override
-                                    public void onFailure(Call call, Throwable t) {
-                                        Toast.makeText(getActivity(), "error: (", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
-
-                            animeAdapter.setDataSet(listOfResultsOfSearchedAnimes);
+                            recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+                            recyclerView.hasFixedSize();
+                            animeAdapter.setDataSet(listOfResultsOfSearchedAnimesForAdapterSet);
                             recyclerView.setAdapter(animeAdapter);
-
                         }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
-
                         }
                     });
 
-//                lastname.setText(firstnameLastname[1]);
 
                 }
 
