@@ -60,10 +60,11 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(item -> {
             if (item.getItemId() == R.id.my_profile) {
                 navController.navigate(R.id.profileFragment);
-            } else if (item.getItemId() == R.id.settings) {
+            } else if (item.getItemId() == R.id.chat) {
                 navController.navigate(R.id.groupChatFragment);
-                Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Chat", Toast.LENGTH_SHORT).show();
             } else if (item.getItemId() == R.id.friends) {
+                navController.navigate(R.id.usersFragment);
                 Toast.makeText(this, "Friends", Toast.LENGTH_SHORT).show();
             }
             return true;

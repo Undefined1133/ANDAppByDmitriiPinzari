@@ -140,7 +140,7 @@ public class ProfileFragment extends Fragment {
                                 listOfResultsOfSearchedAnimesForAdapterSet.add(value);
                                 Log.e("Key is: ", key);
                             }
-                            recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+                            recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
                             recyclerView.hasFixedSize();
                             animeAdapter.setDataSet(listOfResultsOfSearchedAnimesForAdapterSet);
                             recyclerView.setAdapter(animeAdapter);

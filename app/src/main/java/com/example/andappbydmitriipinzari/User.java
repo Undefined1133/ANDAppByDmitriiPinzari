@@ -6,18 +6,28 @@ public class User {
     public String fullName, password, email, username, profilePictureUrl;
 
     public List<String> watchedAnime;
+    public List<String> friends;
 
     public User() {
 
     }
 
-    public User(String fullName, String password, String email, String username, String profilePictureUrl, List<String> favouriteAnimeList) {
+    public User(String fullName, String password, String email, String username, String profilePictureUrl, List<String> favouriteAnimeList,List<String> friends) {
         this.fullName = fullName;
         this.password = password;
         this.email = email;
         this.username = username;
         this.watchedAnime = favouriteAnimeList;
         this.profilePictureUrl = profilePictureUrl;
+        this.friends =friends;
+    }
+
+    public List<String> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(List<String> friends) {
+        this.friends = friends;
     }
 
     public String getFullName() {

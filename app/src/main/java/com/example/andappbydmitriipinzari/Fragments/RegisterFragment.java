@@ -98,7 +98,7 @@ public class RegisterFragment extends Fragment {
 //                            usersRef.updateChildrenAsync(userUpdates);
 
                             User user = new User(fullNameText, passwordText, emailText,
-                                    usernameText,"",null);
+                                    usernameText,"",null,null);
 
                             FirebaseDatabase.getInstance("https://andappbydmitriipinzari-default-rtdb.europe-west1.firebasedatabase.app/").getReference("User")
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())

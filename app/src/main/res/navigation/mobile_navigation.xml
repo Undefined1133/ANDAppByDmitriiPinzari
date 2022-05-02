@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/searchFragment">
 
     <fragment
         android:id="@+id/loginFragment"
@@ -35,5 +35,15 @@
         android:id="@+id/groupChatFragment"
         android:name="com.example.andappbydmitriipinzari.Fragments.GroupChatFragment"
         android:label="group_chat_layout"
+        />
+    <fragment
+        android:id="@+id/friendsFragment"
+        android:name="com.example.andappbydmitriipinzari.Fragments.FriendsFragment"
+        android:label="friends_layout"
+        />
+    <fragment
+        android:id="@+id/usersFragment"
+        android:name="com.example.andappbydmitriipinzari.Fragments.UsersFragment"
+        android:label="users_layout"
         />
 </navigation>

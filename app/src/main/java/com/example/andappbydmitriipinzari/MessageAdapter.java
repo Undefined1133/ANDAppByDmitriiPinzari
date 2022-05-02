@@ -70,7 +70,7 @@ auth = FirebaseAuth.getInstance();
 if(message.getName().equals(auth.getCurrentUser().getEmail())){
     holder.title.setText("You: "  + message.getMessage());
     holder.title.setGravity(Gravity.START);
-    holder.linearLayout.setBackgroundColor(Color.parseColor("#EF973"));
+    holder.linearLayout.setBackgroundColor(Color.parseColor("#fabaff"));
 }
 else
 {

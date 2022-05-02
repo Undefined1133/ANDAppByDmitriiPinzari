@@ -36,6 +36,7 @@ public class GroupChatFragment extends Fragment {
     FirebaseAuth auth;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReferenceMessages;
+
     DatabaseReference databaseReferenceUser;
     MessageAdapter messageAdapter;
     User user;
@@ -53,18 +54,26 @@ public class GroupChatFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recViewMessages);
         enteredMessage = view.findViewById(R.id.enterMessage);
         imageButton = view.findViewById(R.id.sendButton);
+
         imageButton.setOnClickListener(view1 -> {
             if (!TextUtils.isEmpty(enteredMessage.getText().toString())) {
-                Message message = new Message(enteredMessage.getText().toString(), user.fullName);
+                if(auth.getCurrentUser()!=null){
+                Message message = new Message(enteredMessage.getText().toString(), user.email);
                 enteredMessage.setText("");
-                databaseReferenceMessages.push().setValue(message);
+                databaseReferenceMessages.child(auth.getCurrentUser().getUid()).push().setValue(message);
+                }
+                else {
+                    Toast.makeText(getContext(), "You have to be logged in", Toast.LENGTH_SHORT).show();
+                }
             } else {
                 Toast.makeText(getContext(), "You have to type something first", Toast.LENGTH_SHORT).show();
             }
         });
+
         messageList = new ArrayList<>();
         final FirebaseUser currentUser = auth.getCurrentUser();
-        user.setEmail(currentUser.getEmail());
+
+//        user.setEmail(currentUser.getEmail());
 
         if (auth.getCurrentUser() != null) {
 
@@ -72,7 +81,6 @@ public class GroupChatFragment extends Fragment {
             databaseReferenceUser.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    List<String> favouriteAnimes = new ArrayList<String>();
                     for (DataSnapshot ds : snapshot.getChildren()) {
                         String key = ds.getKey();
                         String value = ds.getValue().toString();
@@ -81,15 +89,8 @@ public class GroupChatFragment extends Fragment {
                         } else if (key.equals("fullName")) {
                             user.setFullName(value.toString());
                         }
-                        if (key.equals("watchedAnime")) {
-                            for (DataSnapshot ds1 : ds.getChildren()) {
-                                String key1 = ds1.getKey();
-                                favouriteAnimes.add(ds1.getValue().toString());
-                            }
-                        }
-
                     }
-                    user.setWatchedAnime(favouriteAnimes);
+
 
 
                 }
@@ -99,14 +100,21 @@ public class GroupChatFragment extends Fragment {
 
                 }
             });
-            databaseReferenceMessages = firebaseDatabase.getReference("Messages").child(auth.getCurrentUser().getUid());
+            databaseReferenceMessages = firebaseDatabase.getReference("Messages");
+
 
             databaseReferenceMessages.addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                    Message message = snapshot.getValue(Message.class);
-                    message.setKey(snapshot.getKey());
-                    messageList.add(message);
+                    for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                        Message message = postSnapshot.getValue(Message.class);
+                        message.setKey(postSnapshot.getKey());
+                        messageList.add(message);
+
+                    }
+
+
+
                     displayMessages(messageList);
                 }
 
