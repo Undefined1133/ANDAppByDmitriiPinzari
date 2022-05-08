@@ -35,7 +35,7 @@ public class UsersFragment extends Fragment {
     private DatabaseReference usersReference;
     private RecyclerView recyclerView;
     private FriendsAdapter FriendsAdapter;
-
+    private FirebaseAuth auth;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.users_layout, container, false);
@@ -43,38 +43,41 @@ public class UsersFragment extends Fragment {
         List<User> userList = new ArrayList<User>();
         recyclerView = view.findViewById(R.id.recyclerViewForUsers);
         firebaseDatabase = FirebaseDatabase.getInstance("https://andappbydmitriipinzari-default-rtdb.europe-west1.firebasedatabase.app/");
-
+        auth = FirebaseAuth.getInstance();
 
         usersReference = firebaseDatabase.getReference("User");
 
+        if (auth.getCurrentUser() != null) {
+            usersReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                        User user = new User();
+                        if (!snapshot1.getKey().equals(auth.getCurrentUser().getUid())) {
+                            for (DataSnapshot snapshot2 : snapshot1.getChildren())
+                                if (snapshot2.getKey().equals("fullName")) {
+                                    user.fullName = snapshot2.getValue().toString();
+                                } else if (snapshot2.getKey().equals("username")) {
+                                    user.username = snapshot2.getValue().toString();
+                                } else if (snapshot2.getKey().equals("email")) {
+                                    user.email = snapshot2.getValue().toString();
+                                } else if (snapshot2.getKey().equals("")) {
 
-        usersReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                    User user = new User();
-                    for (DataSnapshot snapshot2 : snapshot1.getChildren())
-                        if (snapshot2.getKey().equals("fullName")) {
-                            user.fullName = snapshot2.getValue().toString();
-                        } else if (snapshot2.getKey().equals("username")) {
-                            user.username = snapshot2.getValue().toString();
-                        } else if (snapshot2.getKey().equals("email")) {
-                            user.email = snapshot2.getValue().toString();
-                        } else if (snapshot2.getKey().equals("")) {
+                                }
 
+                            userList.add(user);
+                            displayMessages(userList);
                         }
 
-                    userList.add(user);
+                    }
                 }
-                displayMessages(userList);
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
-
+                }
+            });
+        }
 
         return view;
     }

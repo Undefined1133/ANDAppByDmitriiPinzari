@@ -27,12 +27,10 @@ import com.example.andappbydmitriipinzari.AnimeApiClasses.AnimeAdapter;
 import com.example.andappbydmitriipinzari.AnimeApiClasses.AnimeClient;
 import com.example.andappbydmitriipinzari.AnimeApiClasses.SearchedAnime;
 import com.example.andappbydmitriipinzari.AnimeApiClasses.SearchedAnimeById;
-import com.example.andappbydmitriipinzari.AnimeApiClasses.TopAnime;
 import com.example.andappbydmitriipinzari.AnimeApiClasses.TopAnimeResult;
 import com.example.andappbydmitriipinzari.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -44,20 +42,18 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ProfileFragment extends Fragment {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference userReference;
+    DatabaseReference userReferenceForFollowing;
+    DatabaseReference userReferenceForFollowers;
+
     FirebaseAuth auth;
     FirebaseStorage storage;
     StorageReference storageRef;
@@ -89,7 +85,8 @@ public class ProfileFragment extends Fragment {
         TextView favouriteAnimes = view.findViewById(R.id.FavouriteAnimes);
         TextView fullName = view.findViewById(R.id.fullNameProfile);
         RecyclerView recyclerView = view.findViewById(R.id.recyclerProfile);
-
+TextView numberOfFollowing = view.findViewById(R.id.numberOfFollowing);
+TextView numberOfFollowers = view.findViewById(R.id.numberOfFollowers);
         firebaseDatabase = FirebaseDatabase.getInstance("https://andappbydmitriipinzari-default-rtdb.europe-west1.firebasedatabase.app/");
 
         auth = FirebaseAuth.getInstance();
@@ -97,8 +94,54 @@ public class ProfileFragment extends Fragment {
             FirebaseUser firebaseUser = auth.getCurrentUser();
 
             userReference = firebaseDatabase.getReference("User").child(firebaseUser.getUid());
+            userReferenceForFollowing = firebaseDatabase.getReference("User").child(firebaseUser.getUid()).child("friends");
+            userReferenceForFollowers = firebaseDatabase.getReference("User");
 
 
+            if (userReferenceForFollowers != null) {
+                userReferenceForFollowers.addListenerForSingleValueEvent(new ValueEventListener() {
+                    int count = 0;
+
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+
+                        for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                            for (DataSnapshot snapshot2 : snapshot1.getChildren()){
+                            if (snapshot2.getKey().equals("friends")) {
+                                for (DataSnapshot snapshot3 : snapshot2.getChildren()) {
+                                    if (snapshot3.getValue().equals(firebaseUser.getEmail())){
+                                        count++;
+                                    }
+                                }
+                            }
+                            }
+
+                        }
+                        numberOfFollowers.setText(String.valueOf(count));
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+        }
+        if(userReferenceForFollowing !=null){
+
+            userReferenceForFollowing.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                   long number = snapshot.getChildrenCount();
+                    numberOfFollowing.setText(String.valueOf(number));
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
         }
         if (userReference != null) {
             userReference.addValueEventListener(new ValueEventListener() {
@@ -165,7 +208,7 @@ public class ProfileFragment extends Fragment {
                     new ActivityResultCallback<ActivityResult>() {
                         @Override
                         public void onActivityResult(ActivityResult result) {
-                            if (result.getData().getData() != null) {
+                            if (result.getData() != null) {
                                 imageUri = result.getData().getData();
                                 profilePicture.setImageURI(imageUri);
                                 uploadPicture();

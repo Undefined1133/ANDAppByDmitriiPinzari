@@ -1,5 +1,6 @@
 package com.example.andappbydmitriipinzari;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,12 +14,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,6 +37,7 @@ import java.util.List;
 
 public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHolder> {
     private List<User> friendList;
+    private List<User> friendListNewVersion = new ArrayList<>();
     FirebaseStorage storage;
     StorageReference storageRef;
     FirebaseAuth auth;
@@ -68,6 +73,8 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
         ImageView profilePictureFriend = view.findViewById(R.id.profilePictureFriend);
         Button followButton = view.findViewById(R.id.followButton);
         auth = FirebaseAuth.getInstance();
+
+
         firebaseDatabase = FirebaseDatabase.getInstance("https://andappbydmitriipinzari-default-rtdb.europe-west1.firebasedatabase.app/");
         userReference = firebaseDatabase.getReference("User");
 
@@ -76,11 +83,22 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
             userReferenceForGettingFollowers = firebaseDatabase.getReference("User").child(currentUser.getUid());
             userReferenceForAddingFollowers = firebaseDatabase.getReference("User").child(currentUser.getUid()).child("friends");
             userReferenceForGettingFollowers.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                List<String> friendMails = new ArrayList<>();
+
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    List<String> friendMails = new ArrayList<>();
-                    if(snapshot.getKey().equals("friends")){
-                        friendMails = (List<String>) snapshot.getValue();
+                    for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                        if (snapshot1.getKey().equals("friends")) {
+                            for (DataSnapshot snapshot2 : snapshot1.getChildren()) {
+                                friendMails.add(snapshot2.getValue().toString());
+                            }
+                        }
+                    }
+                    for (int i = 0; i < friendMails.size(); i++) {
+                        if (user.email.equals(friendMails.get(i))) {
+                            followButton.setText("Unfollow");
+                        }
                     }
                 }
 
@@ -89,22 +107,32 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
 
                 }
             });
-//            SharedPreferences preferences = context.getSharedPreferences(currentUser.getUid(), Context.MODE_PRIVATE);
-//            SharedPreferences.Editor editor = preferences.edit();
-//            boolean followedBoolean = preferences.getBoolean(user.email, false);
-//            if (!followedBoolean) {
-//                followButton.setText("FOLLOW");
-//            } else {
-//                followButton.setText("UNFOLLOW");
-//            }
+
 
             followButton.setOnClickListener(view1 -> {
                 userReferenceForAddingFollowers.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        DatabaseReference newChildReferenceUser = userReferenceForAddingFollowers.push();
-                        String key = newChildReferenceUser.getKey();
-                        userReferenceForAddingFollowers.child(key).setValue(user.email);
+                        List<User> friendListNewVersion = new ArrayList<>();
+                        if (followButton.getText().equals("Follow")) {
+                            DatabaseReference newChildReferenceUser = userReferenceForAddingFollowers.push();
+                            String key = newChildReferenceUser.getKey();
+                            userReferenceForAddingFollowers.child(key).setValue(user.email);
+                            friendListNewVersion.addAll(friendList);
+
+                            setDataSet(friendListNewVersion);
+
+                        } else if (followButton.getText().toString().equals("Unfollow")) {
+                            for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                                if (snapshot1.getValue().toString().equals(user.email)) {
+                                    snapshot1.getRef().removeValue();
+                                    followButton.setText("Follow");
+                                    friendListNewVersion.addAll(friendList);
+                                    setDataSet(friendListNewVersion);
+                                }
+
+                            }
+                        }
                     }
 
                     @Override
@@ -113,13 +141,6 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
                     }
                 });
 
-
-//                if (currentText.equals("FOLLOW")) {
-//                    followButton.setText("UNFOLLOW");
-//                    editor.putBoolean(user.email, true);
-//
-//
-//                }
             });
         }
 
@@ -147,6 +168,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
                                     Log.e("Getting Bytes", "Something went wrong");
+
                                 }
                             });
                         } else {
@@ -161,6 +183,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
                 Log.e("Database in friends adapter", "Something went wrong : " + error);
             }
         });
+
         fullNameFriend.setText(user.fullName);
         emailFriend.setText(user.email);
         usernameFriend.setText(user.username);
@@ -189,5 +212,6 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
         friendList.addAll(friendListNew);
         notifyDataSetChanged();
     }
+
 
 }

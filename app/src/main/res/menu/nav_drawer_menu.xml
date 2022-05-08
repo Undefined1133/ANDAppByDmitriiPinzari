@@ -7,6 +7,9 @@
         android:id="@+id/chat"
         android:title="Chat"/>
     <item
-        android:id="@+id/friends"
-        android:title="Friends"/>
+        android:id="@+id/users"
+        android:title="Users"/>
+    <item android:id="@+id/signOut"
+        android:title="Sign out"/>
+
 </menu>

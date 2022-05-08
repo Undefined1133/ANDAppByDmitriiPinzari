@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawable, R.string.open, R.string.close);
         drawable.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
@@ -63,10 +64,17 @@ public class MainActivity extends AppCompatActivity {
             } else if (item.getItemId() == R.id.chat) {
                 navController.navigate(R.id.groupChatFragment);
                 Toast.makeText(this, "Chat", Toast.LENGTH_SHORT).show();
-            } else if (item.getItemId() == R.id.friends) {
+            } else if (item.getItemId() == R.id.users) {
                 navController.navigate(R.id.usersFragment);
-                Toast.makeText(this, "Friends", Toast.LENGTH_SHORT).show();
-            }
+                Toast.makeText(this, "Users", Toast.LENGTH_SHORT).show();
+            }else if( item.getItemId() == R.id.signOut)
+                if(auth!=null) {
+                    auth.signOut();
+                    navController.navigate(R.id.loginFragment);
+                    Toast.makeText(this, "Signed out", Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(this, "You are not signed in yet", Toast.LENGTH_SHORT).show();
+                }
             return true;
         });
 
@@ -86,10 +94,6 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-//    @Override
-//    protected void onStop() {
-//        super.onStop();
-//        auth.signOut();
-//    }
+
 
 }

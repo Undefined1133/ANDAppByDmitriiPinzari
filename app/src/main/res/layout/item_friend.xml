@@ -20,6 +20,8 @@
                 android:id="@+id/profilePictureFriend"
                 android:layout_width="75dp"
                 android:layout_height="75dp"
+                android:src="@drawable/animeprofilepic"
+
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
@@ -40,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:hint="Full Name"
-                    android:textSize="15sp"
+                    android:textSize="13sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -51,7 +53,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="Username"
-        android:textSize="15dp"
+        android:textSize="13dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,12 +71,12 @@
                     android:id="@+id/emailFriend"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="16dp"
                     android:hint="Email"
 
-                    android:textSize="15sp"
+                    android:textSize="13sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.497"
+                    app:layout_constraintHorizontal_bias="0.383"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -83,8 +85,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="Watched Anime"
-                    android:textSize="15sp"
+                    android:textSize="13sp"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.37"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/emailFriend"></TextView>
 
@@ -101,14 +104,16 @@
 
                 <Button
                     android:id="@+id/followButton"
-                    android:layout_width="70dp"
+                    android:layout_width="95dp"
                     android:layout_height="31dp"
                     android:backgroundTint="#5e5d5a"
                     android:text="Follow"
-                    android:textSize="8sp"
+                    android:textSize="10sp"
 
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.761"
+                    app:layout_constraintStart_toEndOf="@+id/numberOfWatchedAnimes" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

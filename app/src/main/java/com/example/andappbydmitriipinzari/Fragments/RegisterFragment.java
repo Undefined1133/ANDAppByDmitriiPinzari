@@ -44,51 +44,52 @@ public class RegisterFragment extends Fragment {
 
 
         mAuth = FirebaseAuth.getInstance();
+        if(mAuth.getCurrentUser() ==null) {
 
-        banner.setOnClickListener(view1 -> {
-            // return back to activity i guess
-        });
+            banner.setOnClickListener(view1 -> {
+                // return back to activity i guess
+            });
 
-        registerButton.setOnClickListener(view1 -> {
+            registerButton.setOnClickListener(view1 -> {
 
-            String fullNameText = fullName.getText().toString().trim();
-            String usernameText = username.getText().toString().trim();
-            String passwordText = password.getText().toString().trim();
-            String emailText = email.getText().toString().trim();
+                String fullNameText = fullName.getText().toString().trim();
+                String usernameText = username.getText().toString().trim();
+                String passwordText = password.getText().toString().trim();
+                String emailText = email.getText().toString().trim();
 
-            if (fullNameText.isEmpty()) {
-                fullName.setError("Full name is required");
-                fullName.requestFocus();
-                return;
-            }
-            if (usernameText.isEmpty()) {
-                username.setError("Username is required");
-                username.requestFocus();
-                return;
-            }
-            if (emailText.isEmpty()) {
-                email.setError("Email is required");
-                email.requestFocus();
-                return;
-            }
-            if (!Patterns.EMAIL_ADDRESS.matcher(emailText).matches()) {
-                email.setError("Please provide valid email");
-            }
-            if (passwordText.isEmpty()) {
-                password.setError("Password is required");
-                password.requestFocus();
-                return;
-            }
-            if (password.length() < 5) {
-                password.setError("Min password length has to be 5 characters");
-                password.requestFocus();
-                return;
-            }
+                if (fullNameText.isEmpty()) {
+                    fullName.setError("Full name is required");
+                    fullName.requestFocus();
+                    return;
+                }
+                if (usernameText.isEmpty()) {
+                    username.setError("Username is required");
+                    username.requestFocus();
+                    return;
+                }
+                if (emailText.isEmpty()) {
+                    email.setError("Email is required");
+                    email.requestFocus();
+                    return;
+                }
+                if (!Patterns.EMAIL_ADDRESS.matcher(emailText).matches()) {
+                    email.setError("Please provide valid email");
+                }
+                if (passwordText.isEmpty()) {
+                    password.setError("Password is required");
+                    password.requestFocus();
+                    return;
+                }
+                if (password.length() < 5) {
+                    password.setError("Min password length has to be 5 characters");
+                    password.requestFocus();
+                    return;
+                }
 
-            mAuth.createUserWithEmailAndPassword(emailText, passwordText)
-                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
+                mAuth.createUserWithEmailAndPassword(emailText, passwordText)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
 
 // WHEN CLICKING AN ANIME FAVORITE BUTTON, CREATE HASHMAP AS SHOWN BELOW
 
@@ -97,24 +98,28 @@ public class RegisterFragment extends Fragment {
 //                            userUpdates.put("gracehop/nickname", "Amazing Grace");
 //                            usersRef.updateChildrenAsync(userUpdates);
 
-                            User user = new User(fullNameText, passwordText, emailText,
-                                    usernameText,"",null,null);
+                                User user = new User(fullNameText, passwordText, emailText,
+                                        usernameText, "", null, null);
 
-                            FirebaseDatabase.getInstance("https://andappbydmitriipinzari-default-rtdb.europe-west1.firebasedatabase.app/").getReference("User")
-                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                    .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        Toast.makeText(getContext(), "User is registered Succesfully", Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+                                FirebaseDatabase.getInstance("https://andappbydmitriipinzari-default-rtdb.europe-west1.firebasedatabase.app/").getReference("User")
+                                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                        .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Toast.makeText(getContext(), "User is registered Succesfully", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+                                        }
                                     }
-                                }
-                            });
-                        }
-                    });
-        });
+                                });
+                            }
+                        });
+            });
+        }else {
+            Toast.makeText(getContext(), "You are already registered and signed in!", Toast.LENGTH_SHORT).show();
+        }
+
         return view;
     }
 
