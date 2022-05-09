@@ -44,7 +44,9 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
     FirebaseDatabase firebaseDatabase;
     DatabaseReference userReference;
     DatabaseReference userReferenceForGettingFollowers;
+    DatabaseReference userRefForAnimeAmount;
     DatabaseReference userReferenceForAddingFollowers;
+    DatabaseReference userReferenceToGetCurrentUserKeyID;
     Context context;
     private final long ONE_MEGABYTE = 1024 * 1024;
 
@@ -82,6 +84,56 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
             FirebaseUser currentUser = auth.getCurrentUser();
             userReferenceForGettingFollowers = firebaseDatabase.getReference("User").child(currentUser.getUid());
             userReferenceForAddingFollowers = firebaseDatabase.getReference("User").child(currentUser.getUid()).child("friends");
+
+            userReferenceToGetCurrentUserKeyID = firebaseDatabase.getReference("User");
+
+            userReferenceToGetCurrentUserKeyID.addListenerForSingleValueEvent(new ValueEventListener() {
+                String userKeyId = "";
+                User user1 = new User();
+
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                        for (DataSnapshot snapshot2 : snapshot1.getChildren()) {
+
+                            if (snapshot2.getKey().equals("email")) {
+                                user1.email = snapshot2.getValue().toString();
+                            }
+                        }
+                        if (user1.email.equals(user.email)) {
+                            userKeyId = snapshot1.getKey();
+                            userRefForAnimeAmount = firebaseDatabase.getReference("FavouriteAnime").child(userKeyId);
+
+                            userRefForAnimeAmount.addListenerForSingleValueEvent(new ValueEventListener() {
+                                int count = 0;
+
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                    double childNumber = snapshot.getChildrenCount();
+int childNumber1 = (int)childNumber;
+                                    animesWatched.setText(Integer.toString(childNumber1));
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+
+                        }
+
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+
             userReferenceForGettingFollowers.addListenerForSingleValueEvent(new ValueEventListener() {
 
                 List<String> friendMails = new ArrayList<>();
