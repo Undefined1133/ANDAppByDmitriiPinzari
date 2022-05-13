@@ -7,15 +7,14 @@
 
     <TextView
         android:id="@+id/findOutMoreText"
-        android:text="Find out more"
-
-        app:layout_constraintTop_toBottomOf="@id/pgRating"
-        app:layout_constraintStart_toStartOf="@id/pgRating"
-        android:textColor="@android:color/holo_red_light"
         android:layout_width="wrap_content"
+
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        />
+        android:text="Find out more"
+        android:textColor="@android:color/holo_red_light"
+        app:layout_constraintStart_toEndOf="@+id/image"
+        app:layout_constraintTop_toBottomOf="@id/pgRating" />
 
     <ImageView
         android:id="@+id/image"
@@ -81,13 +80,15 @@
 
     <TextView
         android:id="@+id/synopsis"
-        android:textSize="16sp"
-        android:padding="8dp"
-        tools:text="blablalbllblbllalasllblallslslsldskdsandlaskbncjlahdsiausdbsadikujasndasjdnsalkjdasjdsablkdjasbdhjkasbdashjdasbdkljasdbkhajs"
-        android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/image"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:padding="8dp"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/image"
+        tools:layout_editor_absoluteX="0dp"
+        tools:text="blablalbllblbllalasllblallslslsldskdsandlaskbncjlahdsiausdbsadikujasndasjdnsalkjdasjdsablkdjasbdhjkasbdashjdasbdkljasdbkhajs" />
 
     <CheckBox
         android:id="@+id/favouriteAnimeCheckBox"

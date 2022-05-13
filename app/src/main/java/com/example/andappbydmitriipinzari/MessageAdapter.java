@@ -20,35 +20,28 @@ import com.google.firebase.database.DatabaseReference;
 import java.util.List;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageAdapterViewHolder> {
-Context context;
-List<Message> messageList;
-DatabaseReference messageDatabase;
-FirebaseAuth auth;
+    Context context;
+    List<Message> messageList;
+    DatabaseReference messageDatabase;
+    FirebaseAuth auth;
 
 
-public MessageAdapter(Context context, List<Message> messageList, DatabaseReference messageDatabase){
-    this.context = context;
-    this.messageDatabase = messageDatabase;
-    this.messageList = messageList;
-}
+    public MessageAdapter(Context context, List<Message> messageList, DatabaseReference messageDatabase) {
+        this.context = context;
+        this.messageDatabase = messageDatabase;
+        this.messageList = messageList;
+    }
 
 
-    public class MessageAdapterViewHolder extends RecyclerView.ViewHolder{
+    public class MessageAdapterViewHolder extends RecyclerView.ViewHolder {
         TextView title;
-        ImageButton delete;
         LinearLayout linearLayout;
-
 
 
         public MessageAdapterViewHolder(@NonNull View itemView) {
             super(itemView);
-            title= itemView.findViewById(R.id.title);
-            delete= itemView.findViewById(R.id.delete);
+            title = itemView.findViewById(R.id.title);
             linearLayout = itemView.findViewById(R.id.message);
-
-            delete.setOnClickListener(view -> {
-                messageDatabase.child(messageList.get(getBindingAdapterPosition()).getKey()).removeValue();
-            });
         }
     }
 
@@ -56,27 +49,21 @@ public MessageAdapter(Context context, List<Message> messageList, DatabaseRefere
     @NonNull
     @Override
     public MessageAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-View view = LayoutInflater.from(context).inflate(R.layout.item_message,parent,false);
-
-
+        View view = LayoutInflater.from(context).inflate(R.layout.item_message, parent, false);
         return new MessageAdapterViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MessageAdapterViewHolder holder, int position) {
-Message message = messageList.get(position);
-auth = FirebaseAuth.getInstance();
-
-if(message.getName().equals(auth.getCurrentUser().getEmail())){
-    holder.title.setText("You: "  + message.getMessage());
-    holder.title.setGravity(Gravity.START);
-    holder.linearLayout.setBackgroundColor(Color.parseColor("#fabaff"));
-}
-else
-{
-    holder.title.setText(message.getName() + ":" + message.getMessage());
-    holder.delete.setVisibility(View.GONE);
-}
+        Message message = messageList.get(position);
+        auth = FirebaseAuth.getInstance();
+        if (message.getName().equals(auth.getCurrentUser().getEmail())) {
+            holder.title.setText("You: " + message.getMessage());
+            holder.title.setGravity(Gravity.START);
+            holder.linearLayout.setBackgroundColor(Color.parseColor("#fabaff"));
+        } else {
+            holder.title.setText(message.getName() + ":" + message.getMessage());
+        }
     }
 
     @Override

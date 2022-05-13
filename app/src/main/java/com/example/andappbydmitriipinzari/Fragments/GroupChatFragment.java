@@ -27,6 +27,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -57,12 +58,11 @@ public class GroupChatFragment extends Fragment {
 
         imageButton.setOnClickListener(view1 -> {
             if (!TextUtils.isEmpty(enteredMessage.getText().toString())) {
-                if(auth.getCurrentUser()!=null){
-                Message message = new Message(enteredMessage.getText().toString(), user.email);
-                enteredMessage.setText("");
-                databaseReferenceMessages.child(auth.getCurrentUser().getUid()).push().setValue(message);
-                }
-                else {
+                if (auth.getCurrentUser() != null) {
+                    Message message = new Message(enteredMessage.getText().toString(), user.email);
+                    enteredMessage.setText("");
+                    databaseReferenceMessages.push().setValue(message);
+                } else {
                     Toast.makeText(getContext(), "You have to be logged in", Toast.LENGTH_SHORT).show();
                 }
             } else {
@@ -92,7 +92,6 @@ public class GroupChatFragment extends Fragment {
                     }
 
 
-
                 }
 
                 @Override
@@ -100,57 +99,34 @@ public class GroupChatFragment extends Fragment {
 
                 }
             });
+
             databaseReferenceMessages = firebaseDatabase.getReference("Messages");
+            Query query = databaseReferenceMessages.orderByKey();
 
 
-            databaseReferenceMessages.addChildEventListener(new ChildEventListener() {
+            query.addValueEventListener(new ValueEventListener() {
                 @Override
-                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                    for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                         Message message = postSnapshot.getValue(Message.class);
-                        message.setKey(postSnapshot.getKey());
-                        messageList.add(message);
-
-                    }
-
-
-
-                    displayMessages(messageList);
-                }
-
-                @Override
-                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                    Message message = snapshot.getValue(Message.class);
-                    message.setKey(snapshot.getKey());
-                    List<Message> newMessages = new ArrayList<Message>();
-
-                    for (Message m : messageList) {
-                        if (m.getKey().equals(message.getKey())) {
-                            newMessages.add(message);
+                        if (messageList.isEmpty()) {
+                            messageList.add(message);
                         } else {
-                            newMessages.add(m);
+                            for (int i = 0; i < messageList.size(); i++) {
+                                String messageForCheck = message.getMessage();
+                                boolean flag = false;
+                                for (int j = 0; j < messageList.size(); j++) {
+                                    if (messageList.get(j).getMessage().equals(messageForCheck)) {
+                                        flag = true;
+                                    }
+                                }
+                                if (!flag) {
+                                    messageList.add(message);
+                                }
+                            }
                         }
                     }
-                    messageList = newMessages;
                     displayMessages(messageList);
-                }
-
-                @Override
-                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                    Message message = snapshot.getValue(Message.class);
-                    message.setKey(snapshot.getKey());
-                    List<Message> newMessages = new ArrayList<Message>();
-                    for (Message m : messageList) {
-                        if (!m.getKey().equals(message.getKey()))
-                            newMessages.add(m);
-                    }
-                    messageList = newMessages;
-                    displayMessages(messageList);
-                }
-
-                @Override
-                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
                 }
 
                 @Override
@@ -158,7 +134,6 @@ public class GroupChatFragment extends Fragment {
 
                 }
             });
-
 
         }
 
@@ -170,6 +145,7 @@ public class GroupChatFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         messageAdapter = new MessageAdapter(getContext(), messageList, databaseReferenceMessages);
         recyclerView.setAdapter(messageAdapter);
+
     }
 
     @Override
@@ -178,4 +154,7 @@ public class GroupChatFragment extends Fragment {
 //        messageList = new ArrayList<>();
 
     }
+
 }
+
+

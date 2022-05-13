@@ -207,7 +207,8 @@ public class AnimeDetailsFragment extends Fragment {
 //        DateFormat dateFormat= new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
 //        String strDateFrom = dateFormat.format( animeResult.date.from);
 //        String strDateTo = dateFormat.format(animeResult.date.to);
-            if (!animeResult.airing) {
+
+            if ((!animeResult.airing) && (animeResult.aired.prop.to.year != null)) {
                 dates.setText(new StringBuilder().append(animeResult.aired.prop.from.year).append("-").
                         append(animeResult.aired.prop.from.month).append("-").
                         append(animeResult.aired.prop.from.day).append("/").

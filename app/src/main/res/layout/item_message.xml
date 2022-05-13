@@ -34,12 +34,7 @@
 
                 </TextView>
 
-                <ImageButton
-                    android:id="@+id/delete"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:background="#fabaff"
-                    android:src="@drawable/delete_message" />
+
 
 
             </LinearLayout>
