@@ -1,10 +1,12 @@
 package com.example.andappbydmitriipinzari.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -127,6 +129,11 @@ public class GroupChatFragment extends Fragment {
                         }
                     }
                     displayMessages(messageList);
+                    recyclerView.scrollToPosition(messageList.size()-1);
+                    enteredMessage.clearFocus();
+                    enteredMessage.requestFocus(EditText.FOCUS_DOWN);
+                    InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
 
                 @Override

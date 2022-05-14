@@ -61,15 +61,19 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(item -> {
             if (item.getItemId() == R.id.my_profile) {
                 navController.navigate(R.id.profileFragment);
+                drawable.closeDrawers();
             } else if (item.getItemId() == R.id.chat) {
                 navController.navigate(R.id.groupChatFragment);
+                drawable.closeDrawers();
                 Toast.makeText(this, "Chat", Toast.LENGTH_SHORT).show();
             } else if (item.getItemId() == R.id.users) {
                 navController.navigate(R.id.usersFragment);
+                drawable.closeDrawers();
                 Toast.makeText(this, "Users", Toast.LENGTH_SHORT).show();
             }else if( item.getItemId() == R.id.signOut)
                 if(auth!=null) {
                     auth.signOut();
+                    drawable.closeDrawers();
                     navController.navigate(R.id.loginFragment);
                     Toast.makeText(this, "Signed out", Toast.LENGTH_SHORT).show();
                 }else {
