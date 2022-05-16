@@ -10,7 +10,6 @@ public interface AnimeClient {
 Call<SearchedAnime> searchAnime(@Query("q") String queryString);
 @GET("top/anime")
     Call<TopAnime>getTopAnime();
-@GET("anime/{id}")
-    Call<SearchedAnimeById>getAnimeById(@Path("id") String id);
+
 
 }

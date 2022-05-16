@@ -1,5 +1,6 @@
 package com.example.andappbydmitriipinzari;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -33,7 +34,6 @@ import java.util.List;
 
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> {
     private List<User> friendList;
-    private List<User> friendListNewVersion = new ArrayList<>();
     FirebaseStorage storage;
     StorageReference storageRef;
     FirebaseAuth auth;
@@ -107,7 +107,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                                     double childNumber = snapshot.getChildrenCount();
-int childNumber1 = (int)childNumber;
+                                    int childNumber1 = (int) childNumber;
                                     animesWatched.setText(Integer.toString(childNumber1));
                                 }
 
@@ -249,12 +249,13 @@ int childNumber1 = (int)childNumber;
         return friendList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void setDataSet(List<User> friendListNew) {
         friendList.clear();
         friendList.addAll(friendListNew);

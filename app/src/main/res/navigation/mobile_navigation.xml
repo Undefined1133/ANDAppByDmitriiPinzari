@@ -40,11 +40,7 @@
         android:name="com.example.andappbydmitriipinzari.Fragments.GroupChatFragment"
         android:label="group_chat_layout"
         />
-    <fragment
-        android:id="@+id/friendsFragment"
-        android:name="com.example.andappbydmitriipinzari.Fragments.FriendsFragment"
-        android:label="friends_layout"
-        />
+
     <fragment
         android:id="@+id/usersFragment"
         android:name="com.example.andappbydmitriipinzari.Fragments.UsersFragment"

@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.andappbydmitriipinzari.AnimeApiClasses.AnimeAdapter;
+import com.example.andappbydmitriipinzari.AnimeAdapter;
 import com.example.andappbydmitriipinzari.AnimeApiClasses.AnimeClient;
 import com.example.andappbydmitriipinzari.AnimeApiClasses.SearchedAnime;
 import com.example.andappbydmitriipinzari.R;

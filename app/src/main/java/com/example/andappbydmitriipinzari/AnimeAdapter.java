@@ -1,7 +1,6 @@
-package com.example.andappbydmitriipinzari.AnimeApiClasses;
+package com.example.andappbydmitriipinzari;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +12,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.andappbydmitriipinzari.MainActivity;
-import com.example.andappbydmitriipinzari.R;
+import com.example.andappbydmitriipinzari.AnimeApiClasses.SearchedAnime;
+import com.example.andappbydmitriipinzari.AnimeApiClasses.TopAnimeResult;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -22,8 +21,6 @@ import java.util.List;
 
 public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.ViewHolder> {
     private List<TopAnimeResult> topAnimes;
-    private OnClickListener Listener;
-    private List<SearchedAnime> searchedAnimes;
 
     public AnimeAdapter(List<TopAnimeResult> animes) {
 
@@ -82,12 +79,5 @@ public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.ViewHolder> 
         return topAnimes.size();
     }
 
-    public interface OnClickListener {
-        void onClick(SearchedAnime anime);
-    }
 
-    public void setOnClickListener(OnClickListener listener) {
-        this.Listener = listener;
-
-    }
 }

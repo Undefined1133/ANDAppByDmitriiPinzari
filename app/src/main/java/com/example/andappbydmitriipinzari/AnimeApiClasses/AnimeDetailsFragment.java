@@ -38,20 +38,9 @@ public class AnimeDetailsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.anime_details_layout, container, false);
         Bundle bundle = this.getArguments();
-        String animeJson = bundle.getString("animeClicked");
-        String usersUid = "";
         Gson gson = new Gson();
-
         auth = FirebaseAuth.getInstance();
-
-        if (auth.getCurrentUser() != null) {
-            FirebaseUser firebaseUserCheckIfLogged = auth.getCurrentUser();
-            usersUid = firebaseUserCheckIfLogged.getUid();
-        }
-
-
         animeResult = gson.fromJson(bundle.getString("animeClicked"), TopAnimeResult.class);
-
         firebaseDatabase = FirebaseDatabase.getInstance("https://andappbydmitriipinzari-default-rtdb.europe-west1.firebasedatabase.app/");
         CheckBox watchedCheckBox = view.findViewById(R.id.favouriteAnimeCheckBox);
         ImageView image = view.findViewById(R.id.image);
@@ -63,8 +52,6 @@ public class AnimeDetailsFragment extends Fragment {
         TextView synopsis = view.findViewById(R.id.synopsis);
         TextView findOutMore = view.findViewById(R.id.findOutMoreText);
         synopsis.setText(animeResult.synopsis);
-        auth = FirebaseAuth.getInstance();
-
 
         if (auth.getCurrentUser() != null) {
             FirebaseUser firebaseUser = auth.getCurrentUser();
@@ -102,31 +89,19 @@ public class AnimeDetailsFragment extends Fragment {
 
 
             watchedCheckBox.setOnClickListener(view1 ->
-
             {
-
                 boolean isChecked = watchedCheckBox.isChecked();
-
                 if (isChecked) {
                     DatabaseReference userReference;
-
                     userReference = firebaseDatabase.getReference("User").child(firebaseUser.getUid()).child("watchedAnime");
-
-
                     DatabaseReference newChildReferenceFavouriteAnime = favouriteAnimeReference.push();
                     String keyAnime = newChildReferenceFavouriteAnime.getKey();
-
-
                     favouriteAnimeReference.child(keyAnime).setValue(animeResult);
-
                     DatabaseReference newChildReferenceUser = userReference.push();
                     String key = newChildReferenceUser.getKey();
                     userReference.child(key).setValue(Integer.toString(animeResult.malId));
-
-
                 }
             });
-
         } else {
 
             auth = FirebaseAuth.getInstance();
@@ -187,12 +162,7 @@ public class AnimeDetailsFragment extends Fragment {
             }
         }
 
-
-//        DateFormat dateFormat= new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-//        String strDateFrom = dateFormat.format( animeResult.date.from);
-//        String strDateTo = dateFormat.format(animeResult.date.to);
-
-        if ((!animeResult.airing)  && (animeResult.aired.prop.to != null)  && (animeResult.aired.prop.to.year != null)) {
+        if ((!animeResult.airing) && (animeResult.aired.prop.to != null) && (animeResult.aired.prop.to.year != null)) {
             dates.setText(new StringBuilder().append(animeResult.aired.prop.from.year).append("-").
                     append(animeResult.aired.prop.from.month).append("-").
                     append(animeResult.aired.prop.from.day).append("/").

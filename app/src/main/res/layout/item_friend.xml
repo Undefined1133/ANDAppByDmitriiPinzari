@@ -31,7 +31,7 @@
             </com.google.android.material.imageview.ShapeableImageView>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="wrap_content"
+    android:layout_width="150dp"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
@@ -42,26 +42,28 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:hint="Full Name"
-                    android:textSize="13sp"
+                    android:textSize="10sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"></TextView>
 
                 <TextView
-        android:id="@+id/usernameFriend"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Username"
-        android:textSize="13dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fullNameFriendsFragment">
+                    android:id="@+id/usernameFriend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Username"
+                    android:textSize="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/fullNameFriendsFragment"
+                    app:layout_constraintVertical_bias="0.212">
 
-    </TextView>
+                </TextView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -74,7 +76,7 @@
                     android:layout_marginTop="16dp"
                     android:hint="Email"
 
-                    android:textSize="13sp"
+                    android:textSize="10sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.383"
                     app:layout_constraintStart_toStartOf="parent"
@@ -85,7 +87,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="Watched Anime"
-                    android:textSize="13sp"
+                    android:textSize="10sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.37"
                     app:layout_constraintStart_toStartOf="parent"
@@ -108,12 +110,13 @@
                     android:layout_height="31dp"
                     android:backgroundTint="#5e5d5a"
                     android:text="Follow"
-                    android:textSize="10sp"
+                    android:textSize="8sp"
 
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.761"
-                    app:layout_constraintStart_toEndOf="@+id/numberOfWatchedAnimes" />
+                    app:layout_constraintStart_toEndOf="@+id/numberOfWatchedAnimes"
+                    app:layout_constraintTop_toBottomOf="@+id/numberOfWatchedAnimes" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

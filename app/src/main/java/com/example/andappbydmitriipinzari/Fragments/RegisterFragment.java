@@ -46,9 +46,6 @@ public class RegisterFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         if(mAuth.getCurrentUser() ==null) {
 
-            banner.setOnClickListener(view1 -> {
-                // return back to activity i guess
-            });
 
             registerButton.setOnClickListener(view1 -> {
 

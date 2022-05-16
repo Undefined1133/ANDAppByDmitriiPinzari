@@ -23,10 +23,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.andappbydmitriipinzari.AnimeApiClasses.AnimeAdapter;
-import com.example.andappbydmitriipinzari.AnimeApiClasses.AnimeClient;
-import com.example.andappbydmitriipinzari.AnimeApiClasses.SearchedAnime;
-import com.example.andappbydmitriipinzari.AnimeApiClasses.SearchedAnimeById;
+import com.example.andappbydmitriipinzari.AnimeAdapter;
 import com.example.andappbydmitriipinzari.AnimeApiClasses.TopAnimeResult;
 import com.example.andappbydmitriipinzari.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -44,9 +41,6 @@ import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ProfileFragment extends Fragment {
     FirebaseDatabase firebaseDatabase;
