@@ -39,7 +39,6 @@ public class RegisterFragment extends Fragment {
         EditText password = view.findViewById(R.id.passwordRegisterField);
         EditText username = view.findViewById(R.id.usernameRegisterField);
         Button registerButton = view.findViewById(R.id.registerButton);
-        TextView banner = view.findViewById(R.id.banner);
         EditText fullName = view.findViewById(R.id.fullNameRegisterField);
 
 

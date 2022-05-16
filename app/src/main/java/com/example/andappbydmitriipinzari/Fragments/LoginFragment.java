@@ -42,7 +42,6 @@ public class LoginFragment extends Fragment {
         EditText email = view.findViewById(R.id.emailLogin);
         EditText password = view.findViewById(R.id.passwordLogin);
         Button loginButton = view.findViewById(R.id.loginButton);
-        TextView banner = view.findViewById(R.id.myApp);
         TextView registerRedirect = view.findViewById(R.id.registerButton);
         TextView forgotPassword = view.findViewById(R.id.forgotPassword);
 

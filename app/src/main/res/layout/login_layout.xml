@@ -45,17 +45,14 @@
         tools:layout_editor_absoluteX="100dp"
         tools:layout_editor_absoluteY="320dp" />
 
-    <TextView
-        android:id="@+id/myApp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
-        android:text="MyApp"
-        android:textSize="60dp"
+    <ImageView
+        android:id="@+id/banner"
+        android:layout_width="264dp"
+        android:layout_height="258dp"
+        android:src="@drawable/logo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"></ImageView>
 
     <TextView
         android:id="@+id/forgotPassword"
