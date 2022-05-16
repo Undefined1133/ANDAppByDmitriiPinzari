@@ -1,12 +1,7 @@
 package com.example.andappbydmitriipinzari.AnimeApiClasses;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.media.Rating;
 import android.net.Uri;
-import android.nfc.Tag;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +13,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -34,14 +28,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
-import retrofit2.http.Url;
 
 public class AnimeDetailsFragment extends Fragment {
     private TopAnimeResult animeResult;
@@ -99,146 +85,148 @@ public class AnimeDetailsFragment extends Fragment {
                         }
                     }
 
-                        if (isWatched) {
-                            watchedCheckBox.setChecked(true);
-                        } else {
+                    if (isWatched) {
+                        watchedCheckBox.setChecked(true);
+                    } else {
 
-                            watchedCheckBox.setChecked(false);
+                        watchedCheckBox.setChecked(false);
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getContext(), "Failed to get favourite animes", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
+            watchedCheckBox.setOnClickListener(view1 ->
+
+            {
+
+                boolean isChecked = watchedCheckBox.isChecked();
+
+                if (isChecked) {
+                    DatabaseReference userReference;
+
+                    userReference = firebaseDatabase.getReference("User").child(firebaseUser.getUid()).child("watchedAnime");
+
+
+                    DatabaseReference newChildReferenceFavouriteAnime = favouriteAnimeReference.push();
+                    String keyAnime = newChildReferenceFavouriteAnime.getKey();
+
+
+                    favouriteAnimeReference.child(keyAnime).setValue(animeResult);
+
+                    DatabaseReference newChildReferenceUser = userReference.push();
+                    String key = newChildReferenceUser.getKey();
+                    userReference.child(key).setValue(Integer.toString(animeResult.malId));
+
+
+                }
+            });
+
+        } else {
+
+            auth = FirebaseAuth.getInstance();
+            DatabaseReference userReference1;
+            DatabaseReference favouriteAnimeReference;
+
+
+            FirebaseUser firebaseUser = auth.getCurrentUser();
+            favouriteAnimeReference = firebaseDatabase.getReference("FavouriteAnime").child(firebaseUser.getUid());
+            if (firebaseUser != null) {
+                userReference1 = firebaseDatabase.getReference("User").child(firebaseUser.getUid()).child("watchedAnime");
+
+                userReference1.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot watchedAnimeSnapshot : snapshot.getChildren()) {
+
+                            String key = watchedAnimeSnapshot.getKey();
+                            String value = watchedAnimeSnapshot.getValue().toString();
+                            Log.e("Key is: ", key);
+
+                            if (value.equals(Integer.toString(animeResult.malId))) {
+                                userReference1.child(key).removeValue();
+                                Log.e("Removed ", "Is it tho?");
+                            }
+
                         }
-
                     }
 
                     @Override
-                    public void onCancelled (@NonNull DatabaseError error){
-                        Toast.makeText(getContext(), "Failed to get favourite animes", Toast.LENGTH_SHORT).show();
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.v("onCancelled", "idk something is wrong");
                     }
                 });
+                favouriteAnimeReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot favouriteAnimeSnapshot : snapshot.getChildren()) {
+
+                            String key = favouriteAnimeSnapshot.getKey();
+                            TopAnimeResult value = favouriteAnimeSnapshot.getValue(TopAnimeResult.class);
+                            Log.e("Key is: ", key);
 
 
+                            if (Integer.toString(value.malId).equals(Integer.toString(animeResult.malId))) {
+                                favouriteAnimeReference.child(key).removeValue();
+                                Log.e("Removed ", "Is it tho?");
+                            }
 
+                        }
+                    }
 
-        watchedCheckBox.setOnClickListener(view1 ->
-
-                {
-
-                    boolean isChecked = watchedCheckBox.isChecked();
-
-                    if (isChecked) {
-                        DatabaseReference userReference;
-
-                        userReference = firebaseDatabase.getReference("User").child(firebaseUser.getUid()).child("watchedAnime");
-
-
-                        DatabaseReference newChildReferenceFavouriteAnime = favouriteAnimeReference.push();
-                        String keyAnime = newChildReferenceFavouriteAnime.getKey();
-
-
-                        favouriteAnimeReference.child(keyAnime).setValue(animeResult);
-
-                        DatabaseReference newChildReferenceUser = userReference.push();
-                        String key = newChildReferenceUser.getKey();
-                        userReference.child(key).setValue(Integer.toString(animeResult.malId));
-
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
                     }
                 });
-
-            } else{
-
-                auth = FirebaseAuth.getInstance();
-                DatabaseReference userReference1;
-                DatabaseReference favouriteAnimeReference;
-
-
-                FirebaseUser firebaseUser = auth.getCurrentUser();
-                favouriteAnimeReference = firebaseDatabase.getReference("FavouriteAnime").child(firebaseUser.getUid());
-                if (firebaseUser != null) {
-                    userReference1 = firebaseDatabase.getReference("User").child(firebaseUser.getUid()).child("watchedAnime");
-
-                    userReference1.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for (DataSnapshot watchedAnimeSnapshot : snapshot.getChildren()) {
-
-                                String key = watchedAnimeSnapshot.getKey();
-                                String value = watchedAnimeSnapshot.getValue().toString();
-                                Log.e("Key is: ", key);
-
-                                if (value.equals(Integer.toString(animeResult.malId))) {
-                                    userReference1.child(key).removeValue();
-                                    Log.e("Removed ", "Is it tho?");
-                                }
-
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            Log.v("onCancelled", "idk something is wrong");
-                        }
-                    });
-                    favouriteAnimeReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for (DataSnapshot favouriteAnimeSnapshot : snapshot.getChildren()) {
-
-                                String key = favouriteAnimeSnapshot.getKey();
-                                TopAnimeResult value = favouriteAnimeSnapshot.getValue(TopAnimeResult.class);
-                                Log.e("Key is: ", key);
-
-
-                                if (Integer.toString(value.malId).equals(Integer.toString(animeResult.malId))) {
-                                    favouriteAnimeReference.child(key).removeValue();
-                                    Log.e("Removed ", "Is it tho?");
-                                }
-
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-                }
             }
+        }
 
 
 //        DateFormat dateFormat= new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
 //        String strDateFrom = dateFormat.format( animeResult.date.from);
 //        String strDateTo = dateFormat.format(animeResult.date.to);
 
-            if ((!animeResult.airing) && (animeResult.aired.prop.to.year != null)) {
-                dates.setText(new StringBuilder().append(animeResult.aired.prop.from.year).append("-").
-                        append(animeResult.aired.prop.from.month).append("-").
-                        append(animeResult.aired.prop.from.day).append("/").
-                        append(animeResult.aired.prop.to.year).append("-").
-                        append(animeResult.aired.prop.to.month).append("-").
-                        append(animeResult.aired.prop.to.day).toString());
-            } else {
-                dates.setText(new StringBuilder().append(animeResult.aired.prop.from.year).append("-").
-                        append(animeResult.aired.prop.from.month).append("-").
-                        append(animeResult.aired.prop.from.day).append("/").
-                        append("Still airing").toString());
-            }
-            pgRating.setText(animeResult.rated);
-            episodes.setText("Nr of episodes : " + Integer.valueOf(animeResult.episodes));
-            Picasso.get().load(animeResult.imageUrl.jpg.getImage_url()).into(image);
-            name.setText(animeResult.title);
-            rating.setText(animeResult.score.toString());
-
-            findOutMore.setOnClickListener(view1 -> {
-                openCustomTab(getActivity(), animeResult.url);
-            });
-
-
-            return view;
-
+        if ((!animeResult.airing)  && (animeResult.aired.prop.to != null)  && (animeResult.aired.prop.to.year != null)) {
+            dates.setText(new StringBuilder().append(animeResult.aired.prop.from.year).append("-").
+                    append(animeResult.aired.prop.from.month).append("-").
+                    append(animeResult.aired.prop.from.day).append("/").
+                    append(animeResult.aired.prop.to.year).append("-").
+                    append(animeResult.aired.prop.to.month).append("-").
+                    append(animeResult.aired.prop.to.day).toString());
+        } else if (animeResult.type.equals("Movie") || animeResult.type.equals("Special")) {
+            dates.setText(new StringBuilder().append(animeResult.aired.prop.from.year).append("-").
+                    append(animeResult.aired.prop.from.month).append("-").
+                    append(animeResult.aired.prop.from.day).toString());
+        } else {
+            dates.setText(new StringBuilder().append(animeResult.aired.prop.from.year).append("-").
+                    append(animeResult.aired.prop.from.month).append("-").
+                    append(animeResult.aired.prop.from.day).append("/").
+                    append("Still airing").toString());
         }
+        pgRating.setText(animeResult.rating);
+        episodes.setText("Nr of episodes : " + Integer.valueOf(animeResult.episodes));
+        Picasso.get().load(animeResult.imageUrl.jpg.getImage_url()).into(image);
+        name.setText(animeResult.title);
+        rating.setText("Rating :" + animeResult.score.toString());
 
-        private void openCustomTab (FragmentActivity appCompatActivity, String url){
-            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-            builder.setShowTitle(true);
-            builder.build().launchUrl(appCompatActivity, Uri.parse(url));
-        }
+        findOutMore.setOnClickListener(view1 -> {
+            openCustomTab(getActivity(), animeResult.url);
+        });
+
+
+        return view;
+
     }
+
+    private void openCustomTab(FragmentActivity appCompatActivity, String url) {
+        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+        builder.setShowTitle(true);
+        builder.build().launchUrl(appCompatActivity, Uri.parse(url));
+    }
+}

@@ -1,12 +1,10 @@
 package com.example.andappbydmitriipinzari.Fragments;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,13 +12,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.andappbydmitriipinzari.FriendsAdapter;
-import com.example.andappbydmitriipinzari.Message;
-import com.example.andappbydmitriipinzari.MessageAdapter;
+import com.example.andappbydmitriipinzari.UsersAdapter;
 import com.example.andappbydmitriipinzari.R;
 import com.example.andappbydmitriipinzari.User;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,7 +29,7 @@ public class UsersFragment extends Fragment {
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference usersReference;
     private RecyclerView recyclerView;
-    private FriendsAdapter FriendsAdapter;
+    private UsersAdapter FriendsAdapter;
     private FirebaseAuth auth;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -66,7 +61,7 @@ public class UsersFragment extends Fragment {
                                 }
 
                             userList.add(user);
-                            displayMessages(userList);
+                            displayUsers(userList);
                         }
 
                     }
@@ -77,14 +72,16 @@ public class UsersFragment extends Fragment {
 
                 }
             });
+        }else{
+            Toast.makeText(getContext(), "You have to be logged in!", Toast.LENGTH_SHORT).show();
         }
 
         return view;
     }
 
-    private void displayMessages(List<User> userList) {
+    private void displayUsers(List<User> userList) {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        FriendsAdapter = new FriendsAdapter(userList, getContext());
+        FriendsAdapter = new UsersAdapter(userList, getContext());
         recyclerView.setAdapter(FriendsAdapter);
     }
 }

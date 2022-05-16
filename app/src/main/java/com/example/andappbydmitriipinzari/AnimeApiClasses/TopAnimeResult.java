@@ -1,6 +1,5 @@
 package com.example.andappbydmitriipinzari.AnimeApiClasses;
 
-import com.example.andappbydmitriipinzari.AnimeApiClasses.Images;
 import com.google.gson.annotations.SerializedName;
 
 public class TopAnimeResult {
@@ -14,8 +13,8 @@ public class TopAnimeResult {
     public int malId;
     @SerializedName("members")
     public int members;
-    @SerializedName("rated")
-    public  String rated;
+    @SerializedName("rating")
+    public  String rating;
     @SerializedName("score")
     public  Double score;
     @SerializedName("aired")
@@ -74,12 +73,12 @@ public class TopAnimeResult {
         this.members = members;
     }
 
-    public String getRated() {
-        return rated;
+    public String getRating() {
+        return rating;
     }
 
-    public void setRated(String rated) {
-        this.rated = rated;
+    public void setRating(String rating) {
+        this.rating = rating;
     }
 
     public Double getScore() {

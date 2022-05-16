@@ -73,9 +73,8 @@ public class GroupChatFragment extends Fragment {
         });
 
         messageList = new ArrayList<>();
-        final FirebaseUser currentUser = auth.getCurrentUser();
 
-//        user.setEmail(currentUser.getEmail());
+
 
         if (auth.getCurrentUser() != null) {
 
@@ -158,7 +157,6 @@ public class GroupChatFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-//        messageList = new ArrayList<>();
 
     }
 

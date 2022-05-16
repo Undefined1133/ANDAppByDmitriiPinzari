@@ -44,44 +44,46 @@ public class LoginFragment extends Fragment {
         Button loginButton = view.findViewById(R.id.loginButton);
         TextView banner = view.findViewById(R.id.myApp);
         TextView registerRedirect = view.findViewById(R.id.registerButton);
+        TextView forgotPassword = view.findViewById(R.id.forgotPassword);
 
 
+        loginButton.setOnClickListener(view1 -> {
+            NavController navController = Navigation.findNavController(view);
+            auth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString())
+                    .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                Log.d("SuccessLogin",
+                                        "singInWithEmail Success");
+                                navController.navigate(R.id.searchFragment);
 
-loginButton.setOnClickListener(view1 -> {
-    NavController navController = Navigation.findNavController(view);
-    auth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString())
-            .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        Log.d("SuccessLogin",
-                                "singInWithEmail Success");
-                        navController.navigate(R.id.searchFragment);
-
-                    } else {
-                        Log.w(TAG, "signInWithEmail:failure", task.getException());
-                        Toast.makeText(getActivity(), "Authentication Failed", Toast.LENGTH_SHORT).show();
-                    }
-                    if (!task.isSuccessful()) {
-                        Toast.makeText(getActivity(), "Authentication failed", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-});
-
+                            } else {
+                                Log.w(TAG, "signInWithEmail:failure", task.getException());
+                                Toast.makeText(getActivity(), "Authentication Failed", Toast.LENGTH_SHORT).show();
+                            }
+                            if (!task.isSuccessful()) {
+                                Toast.makeText(getActivity(), "Authentication failed", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+        });
 
 
-//        registerRedirect.setOnClickListener(view1 -> {
-//
-//        });
+        forgotPassword.setOnClickListener(view2 -> {
+
+            NavController navController1 = Navigation.findNavController(view);
+            navController1.navigate(R.id.resetPasswordFragment);
+
+        });
+        registerRedirect.setOnClickListener(view1 -> {
+            NavController navController = Navigation.findNavController(view);
+
+            navController.navigate(R.id.registerFragment);
+        });
 
 
         return view;
-    }
-
-    public void logout() {
-        auth.signOut();
-        startActivity(new Intent(getContext(), MainActivity.class));
     }
 }
 

@@ -18,7 +18,7 @@
                 android:id="@+id/message"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/purple_200"
+                android:background="#2c96c7"
                 android:orientation="horizontal">
 
                 <TextView

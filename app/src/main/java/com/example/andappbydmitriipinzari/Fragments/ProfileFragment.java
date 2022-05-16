@@ -58,35 +58,29 @@ public class ProfileFragment extends Fragment {
     FirebaseStorage storage;
     StorageReference storageRef;
     Uri imageUri;
-    ArrayList<String> animeIdList = new ArrayList<>();
-    List<SearchedAnimeById> listOfSearchedAnimes = new ArrayList<SearchedAnimeById>();
+
     List<TopAnimeResult> listOfResultsOfSearchedAnimes = new ArrayList<TopAnimeResult>();
     List<TopAnimeResult> listOfResultsOfSearchedAnimesForAdapterSet = new ArrayList<TopAnimeResult>();
-    private static final String USERS = "User";
     private final long ONE_MEGABYTE = 1024 * 1024;
-    private List<SearchedAnime> searchedAnimeList;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.profile_layout, container, false);
 
-        Retrofit.Builder builder = new Retrofit.Builder().baseUrl("https://api.jikan.moe/v4/")
-                .addConverterFactory(GsonConverterFactory.create());
 
-        Retrofit retrofit = builder.build();
         AnimeAdapter animeAdapter = new AnimeAdapter(listOfResultsOfSearchedAnimes);
-        AnimeClient client = retrofit.create(AnimeClient.class);
+
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference();
         ImageView profilePicture = view.findViewById(R.id.profilePicture);
         TextView username = view.findViewById(R.id.usernameProfile);
         TextView email = view.findViewById(R.id.emailProfile);
-        TextView favouriteAnimes = view.findViewById(R.id.FavouriteAnimes);
+
         TextView fullName = view.findViewById(R.id.fullNameProfile);
         RecyclerView recyclerView = view.findViewById(R.id.recyclerProfile);
-TextView numberOfFollowing = view.findViewById(R.id.numberOfFollowing);
-TextView numberOfFollowers = view.findViewById(R.id.numberOfFollowers);
+        TextView numberOfFollowing = view.findViewById(R.id.numberOfFollowing);
+        TextView numberOfFollowers = view.findViewById(R.id.numberOfFollowers);
         firebaseDatabase = FirebaseDatabase.getInstance("https://andappbydmitriipinzari-default-rtdb.europe-west1.firebasedatabase.app/");
 
         auth = FirebaseAuth.getInstance();
@@ -107,14 +101,14 @@ TextView numberOfFollowers = view.findViewById(R.id.numberOfFollowers);
 
 
                         for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                            for (DataSnapshot snapshot2 : snapshot1.getChildren()){
-                            if (snapshot2.getKey().equals("friends")) {
-                                for (DataSnapshot snapshot3 : snapshot2.getChildren()) {
-                                    if (snapshot3.getValue().equals(firebaseUser.getEmail())){
-                                        count++;
+                            for (DataSnapshot snapshot2 : snapshot1.getChildren()) {
+                                if (snapshot2.getKey().equals("friends")) {
+                                    for (DataSnapshot snapshot3 : snapshot2.getChildren()) {
+                                        if (snapshot3.getValue().equals(firebaseUser.getEmail())) {
+                                            count++;
+                                        }
                                     }
                                 }
-                            }
                             }
 
                         }
@@ -128,12 +122,12 @@ TextView numberOfFollowers = view.findViewById(R.id.numberOfFollowers);
                 });
             }
         }
-        if(userReferenceForFollowing !=null){
+        if (userReferenceForFollowing != null) {
 
             userReferenceForFollowing.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                   long number = snapshot.getChildrenCount();
+                    long number = snapshot.getChildrenCount();
                     numberOfFollowing.setText(String.valueOf(number));
                 }
 
@@ -234,7 +228,6 @@ TextView numberOfFollowers = view.findViewById(R.id.numberOfFollowers);
             FirebaseUser firebaseUser = auth.getCurrentUser();
             String uid = firebaseUser.getUid();
             StorageReference mountainsRef = storageRef.child("images/" + uid);
-//            StorageReference mountainsRef = storageRef.child("images/" + uid + " "+imageUriForUpload);
             userReference = firebaseDatabase.getReference("User").child(uid).child("profilePictureUrl");
 
             mountainsRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -249,11 +242,6 @@ TextView numberOfFollowers = view.findViewById(R.id.numberOfFollowers);
                 }
             });
         }
-// Create a reference to 'images/mountains.jpg'
-
-
-// While the file names are the same, the references point to different files
-
     }
 
     private void choosePicture(ActivityResultLauncher<Intent> activityResultLauncher) {

@@ -8,7 +8,11 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.andappbydmitriipinzari.Fragments.LoginFragment"
-        android:label="login_layout" />
+        android:label="login_layout" >
+        <action
+            android:id="@+id/action_loginFragment_to_resetPasswordFragment"
+            app:destination="@id/resetPasswordFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/registerFragment"
@@ -45,5 +49,10 @@
         android:id="@+id/usersFragment"
         android:name="com.example.andappbydmitriipinzari.Fragments.UsersFragment"
         android:label="users_layout"
+        />
+    <fragment
+        android:id="@+id/resetPasswordFragment"
+        android:name="com.example.andappbydmitriipinzari.Fragments.ResetPasswordFragment"
+        android:label="reset_password_layout"
         />
 </navigation>

@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     ActionBarDrawerToggle actionBarDrawerToggle;
 
     FirebaseAuth auth;
+    BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,17 +38,17 @@ public class MainActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
 
         DrawerLayout drawable = findViewById(R.id.drawerLayout);
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.inflateMenu(R.menu.bottom_nav_menu_logged_in);
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == R.id.home) {
                     navController.navigate(R.id.searchFragment);
-                } else if (item.getItemId() == R.id.registration) {
-                    navController.navigate(R.id.registerFragment);
-                } else if (item.getItemId() == R.id.login) {
-                    navController.navigate(R.id.loginFragment);
+                } else if (item.getItemId() == R.id.chat) {
+                    navController.navigate(R.id.groupChatFragment);
+                } else if (item.getItemId() == R.id.users) {
+                    navController.navigate(R.id.usersFragment);
                 }
                 return true;
             }
@@ -62,23 +63,20 @@ public class MainActivity extends AppCompatActivity {
             if (item.getItemId() == R.id.my_profile) {
                 navController.navigate(R.id.profileFragment);
                 drawable.closeDrawers();
-            } else if (item.getItemId() == R.id.chat) {
-                navController.navigate(R.id.groupChatFragment);
+            } else if (item.getItemId() == R.id.register) {
+                navController.navigate(R.id.registerFragment);
                 drawable.closeDrawers();
-                Toast.makeText(this, "Chat", Toast.LENGTH_SHORT).show();
-            } else if (item.getItemId() == R.id.users) {
-                navController.navigate(R.id.usersFragment);
+                Toast.makeText(this, "Register", Toast.LENGTH_SHORT).show();
+            } else if (item.getItemId() == R.id.login) {
+                navController.navigate(R.id.loginFragment);
                 drawable.closeDrawers();
-                Toast.makeText(this, "Users", Toast.LENGTH_SHORT).show();
-            }else if( item.getItemId() == R.id.signOut)
-                if(auth!=null) {
-                    auth.signOut();
-                    drawable.closeDrawers();
-                    navController.navigate(R.id.loginFragment);
-                    Toast.makeText(this, "Signed out", Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(this, "You are not signed in yet", Toast.LENGTH_SHORT).show();
-                }
+                Toast.makeText(this, "Login", Toast.LENGTH_SHORT).show();
+            } else if (item.getItemId() == R.id.signOut) {
+                signOut();
+                drawable.closeDrawers();
+                navController.navigate(R.id.loginFragment);
+
+            }
             return true;
         });
 
@@ -98,6 +96,13 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void signOut() {
+        if (auth.getCurrentUser() != null) {
+            auth.signOut();
+            Toast.makeText(this, "Signed out", Toast.LENGTH_SHORT).show();
+        }
+        Toast.makeText(this, "You are not signed in yet", Toast.LENGTH_SHORT).show();
+    }
 
 
 }

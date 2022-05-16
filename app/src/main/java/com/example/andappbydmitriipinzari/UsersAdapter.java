@@ -1,6 +1,5 @@
 package com.example.andappbydmitriipinzari;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,15 +13,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHolder> {
+public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> {
     private List<User> friendList;
     private List<User> friendListNewVersion = new ArrayList<>();
     FirebaseStorage storage;
@@ -50,7 +46,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
     Context context;
     private final long ONE_MEGABYTE = 1024 * 1024;
 
-    public FriendsAdapter(List<User> friendList, Context context) {
+    public UsersAdapter(List<User> friendList, Context context) {
 
         this.friendList = friendList;
         this.context = context;
