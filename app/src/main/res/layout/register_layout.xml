@@ -20,7 +20,7 @@
         android:id="@+id/emailRegisterField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="228dp"
+        android:layout_marginTop="256dp"
         android:ems="10"
         android:hint="Email Address"
         android:inputType="textEmailAddress"

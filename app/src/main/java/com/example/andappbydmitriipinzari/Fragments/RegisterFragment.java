@@ -14,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.example.andappbydmitriipinzari.AnimeApiClasses.TopAnimeResult;
 import com.example.andappbydmitriipinzari.R;
@@ -87,13 +89,6 @@ public class RegisterFragment extends Fragment {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
 
-// WHEN CLICKING AN ANIME FAVORITE BUTTON, CREATE HASHMAP AS SHOWN BELOW
-
-//                            Map<String, Object> userUpdates = new HashMap<>();
-//                            userUpdates.put("alanisawesome/nickname", "Alan The Machine");
-//                            userUpdates.put("gracehop/nickname", "Amazing Grace");
-//                            usersRef.updateChildrenAsync(userUpdates);
-
                                 User user = new User(fullNameText, passwordText, emailText,
                                         usernameText, "", null, null);
 
@@ -104,6 +99,8 @@ public class RegisterFragment extends Fragment {
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()) {
                                             Toast.makeText(getContext(), "User is registered Succesfully", Toast.LENGTH_SHORT).show();
+                                            NavController navController = Navigation.findNavController(view);
+                                            navController.navigate(R.id.loginFragment);
                                         } else {
                                             Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
                                         }
@@ -114,6 +111,9 @@ public class RegisterFragment extends Fragment {
             });
         }else {
             Toast.makeText(getContext(), "You are already registered and signed in!", Toast.LENGTH_SHORT).show();
+            registerButton.setOnClickListener(view1 -> {
+                Toast.makeText(getContext(), "You have to sign out first :)", Toast.LENGTH_SHORT).show();
+            });
         }
 
         return view;
