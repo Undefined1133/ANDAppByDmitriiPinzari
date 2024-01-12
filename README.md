@@ -19,11 +19,3 @@ Requirements:
 9.As a user, i want to be able to change password if i forget it.                (DONE)
 10.As a user, i want to be able to change my profile picture.                    (DONE)
 
-
-
-
-MY VIDEO : https://www.youtube.com/watch?v=JppQBItRxJM
-
-REFERENCES: 
-https://www.youtube.com/watch?v=w-Uv-ydX_LY   ---------------------- Forgot password feature]
-https://www.youtube.com/watch?v=zShuYIwMjOo&t ---------------- Anime app, the desing is completely from there, however the code since it was in kotlin, had to be translated, though 90% made by myself.
